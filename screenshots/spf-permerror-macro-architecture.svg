@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" width="1000" height="500">
+  <defs>
+    <linearGradient id="bgArchSpf" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#070913"/>
+      <stop offset="100%" stop-color="#03040a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1000" height="500" fill="url(#bgArchSpf)"/>
+
+  <text x="500" y="45" fill="#ffffff" font-family="-apple-system, sans-serif" font-weight="700" font-size="20" text-anchor="middle">
+    RFC 7208 SPF Threat Architecture: 10-Lookup PermError vs Macro Shield
+  </text>
+
+  <!-- Left: Vulnerable Architecture -->
+  <rect x="40" y="80" width="430" height="380" rx="10" fill="#140e18" stroke="#ef4444" stroke-width="1.5"/>
+  <rect x="55" y="95" width="400" height="34" rx="6" fill="#ef4444" fill-opacity="0.2"/>
+  <text x="255" y="118" fill="#f87171" font-family="-apple-system, sans-serif" font-weight="700" font-size="14" text-anchor="middle">
+    Scenario A: 10-Lookup PermError Outage
+  </text>
+
+  <rect x="55" y="145" width="400" height="60" rx="6" fill="#0a0d1e" stroke="#242f5d"/>
+  <text x="70" y="170" fill="#fca5a5" font-family="monospace" font-size="11">include:google + salesforce + zendesk + hubspot...</text>
+  <text x="70" y="190" fill="#ef4444" font-family="-apple-system, sans-serif" font-size="11">TOTAL LOOKUPS: 13 / 10 (RFC 7208 Section 4.6.4 Exceeded)</text>
+
+  <rect x="55" y="220" width="400" height="220" rx="6" fill="#1c0f18" stroke="#ef4444" stroke-opacity="0.4"/>
+  <text x="70" y="245" fill="#f87171" font-family="-apple-system, sans-serif" font-weight="700" font-size="12">OUTAGE PROPAGATION CASCADE:</text>
+  <text x="70" y="275" fill="#fca5a5" font-family="-apple-system, sans-serif" font-size="11">&bull; Receiving MTA traverses nested include mechanisms</text>
+  <text x="70" y="305" fill="#fca5a5" font-family="-apple-system, sans-serif" font-size="11">&bull; Resolver hits 11th lookup -> Aborts with PermError</text>
+  <text x="70" y="335" fill="#fca5a5" font-family="-apple-system, sans-serif" font-size="11">&bull; DMARC policy cannot align: spf=permerror (Fail)</text>
+  <text x="70" y="365" fill="#fca5a5" font-family="-apple-system, sans-serif" font-size="11">&bull; Invoices and marketing emails dropped or sent to spam</text>
+  <text x="70" y="415" fill="#ef4444" font-family="-apple-system, sans-serif" font-weight="700" font-size="12">CRITICAL REVENUE INTERRUPTION &amp; REPUTATION DAMAGE</text>
+
+  <!-- Right: Hardened Architecture -->
+  <rect x="530" y="80" width="430" height="380" rx="10" fill="#091826" stroke="#10b981" stroke-width="1.5"/>
+  <rect x="545" y="95" width="400" height="34" rx="6" fill="#10b981" fill-opacity="0.2"/>
+  <text x="745" y="118" fill="#34d399" font-family="-apple-system, sans-serif" font-weight="700" font-size="14" text-anchor="middle">
+    Scenario B: SPFMacroForge Pro Zero-PermError Shield
+  </text>
+
+  <rect x="545" y="145" width="400" height="60" rx="6" fill="#0a0d1e" stroke="#242f5d"/>
+  <text x="560" y="170" fill="#34d399" font-family="monospace" font-size="11">include:_spf.google.com exists:%{i}._spf.domain -all</text>
+  <text x="560" y="190" fill="#94a3b8" font-family="-apple-system, sans-serif" font-size="11">LOOKUPS CONSUMED: 2 / 10 (8 Queries of Headroom)</text>
+
+  <rect x="545" y="220" width="400" height="220" rx="6" fill="#071b22" stroke="#10b981" stroke-opacity="0.4"/>
+  <text x="560" y="245" fill="#34d399" font-family="-apple-system, sans-serif" font-weight="700" font-size="12">ZERO-PERMERROR RELIABILITY GUARANTEES:</text>
+  <text x="560" y="275" fill="#86efac" font-family="-apple-system, sans-serif" font-size="11">&bull; Receiver dynamically queries: [client-ip]._spf.domain A</text>
+  <text x="560" y="305" fill="#86efac" font-family="-apple-system, sans-serif" font-size="11">&bull; Authoritative DNS worker returns 127.0.0.2 (Match!)</text>
+  <text x="560" y="335" fill="#86efac" font-family="-apple-system, sans-serif" font-size="11">&bull; Zero IP drift: vendor IP rotations update in 1 place</text>
+  <text x="560" y="365" fill="#86efac" font-family="-apple-system, sans-serif" font-size="11">&bull; SPF Pass • DMARC Pass • 100% Primary Inbox Delivery</text>
+  <text x="560" y="415" fill="#10b981" font-family="-apple-system, sans-serif" font-weight="700" font-size="12">PERMANENT 10-LOOKUP IMMUNITY • ZERO IP DRIFT</text>
+</svg>
